@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>Home Page</title>
+<style>
+
+body { height:90vh; min-height:90vh; }
+
+.linkTable { border-spacing:8px; }
+.linkSpan { font-size:14px; }
+.linkTD   { width:95px; height:75px; border:1px solid lightgray; border-radius:7px; background-color:#FAF9F6; box-shadow:2px 2px gray; text-align:center; font-family:sans-serif; cursor:pointer; }
+.containerDV { height:100%; display:flex; justify-content:center; align-items:center; }
+.linksTD { padding:12px; } 
+.todayTD { font-size:40pt; color:blue; text-shadow: 3px 3px 4px black; font-family:sans-serif; padding-left:40px; } 
+.searchTX { font-size:20px; font-weight:90; font-family:sans-serif; }
+
+</style>
+</head>
+<body>
+<div class="containerDV">
+<table>
+ <tbody><tr>
+  <td id="dynLinks" class="linksTD"><table class="linkTable"><tbody><tr><td class="linkTD" onclick='LinkClick("https://mail.google.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_011.png" width="24" height="24"><br>GMail</span></td><td class="linkTD" onclick='LinkClick("https://mail.protonmail.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_016.png" width="24" height="24"><br>Proton Mail</span></td><td class="linkTD" onclick='LinkClick("https://www.youtube.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_010.png" width="24" height="24"><br>YouTube</span></td><td class="linkTD" onclick='LinkClick("https://www.twitch.tv")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_003.png" width="24" height="24"><br>Twitch</span></td><td class="linkTD" onclick='LinkClick("https://www.facebook.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_007.png" width="24" height="24"><br>FaceBook</span></td><td class="linkTD" onclick='LinkClick("https://www.paypal.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_015.png" width="24" height="24"><br>PayPal</span></td></tr><tr><td class="linkTD" onclick='LinkClick("https://wa.kaiserpermanente.org")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_013.png" width="24" height="24"><br>Kaiser</span></td><td class="linkTD" onclick='LinkClick("https://www.google.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_008.png" width="24" height="24"><br>Google</span></td><td class="linkTD" onclick='LinkClick("https://maps.google.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2.png" width="24" height="24"><br>Google Maps</span></td><td class="linkTD" onclick='LinkClick("https://www.reddit.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_004.png" width="24" height="24"><br>Reddit</span></td><td class="linkTD" onclick='LinkClick("https://www.patreon.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_002.png" width="24" height="24"><br>Patreon</span></td><td class="linkTD" onclick='LinkClick("https://www.duolingo.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_005.png" width="24" height="24"><br>Duolingo</span></td></tr><tr><td class="linkTD" onclick='LinkClick("https://www.amazon.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_012.png" width="24" height="24"><br>Amazon</span></td><td class="linkTD" onclick='LinkClick("https://www.ebay.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_017.png" width="24" height="24"><br>EBay</span></td><td class="linkTD" onclick='LinkClick("https://www.peacocktv.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_006.png" width="24" height="24"><br>Peacock</span></td><td class="linkTD" onclick='LinkClick("https://aviationweather.gov/satellite/plot?region=us")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_014.png" width="24" height="24"><br>Weather</span></td><td class="linkTD" onclick='LinkClick("https://www.pornhub.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2_009.png" width="24" height="24"><br>PornHub</span></td><td class="linkTD" onclick='LinkClick("https://www.xhamster.com")'><span class="linkSpan"><img src="Home%20Page_files/faviconV2.jpg" width="24" height="24"><br>Hamster</span></td></tr></tbody></table></td>
+  <td id="dynToday" class="todayTD">Thursday 3:02PM<br>6 Jul 2023</td>
+ </tr>
+ <tr>
+  <td align="center">
+    <br>
+    <form action="https://www.google.com/search" method="get" target="_self">
+    <input class="searchTX" type="text" name="q" size="60" placeholder="Google Search" autofocus="">
+    <input class="searchTX" type="submit" value="Search" onclick="Search();" style="margin-left:5px;">
+    </form>
+  </td>
+ </tr>
+</tbody></table>
+</div>
+
+<script>
+
+var timer;
+const URLS = new Array();
+
+function URL(strName, strURL)
+{
+ this.Text=strName;
+ this.Link=strURL;
+}
+
+function AddURLs()
+{
+ URLS[0]=new URL("GMail", "https://mail.google.com");
+ URLS[1]=new URL("Proton Mail", "https://mail.protonmail.com");
+ URLS[2]=new URL("YouTube", "https://www.youtube.com");
+ URLS[3]=new URL("Twitch", "https://www.twitch.tv");
+ URLS[4]=new URL("FaceBook", "https://www.facebook.com");
+ URLS[5]=new URL("PayPal", "https://www.paypal.com");
+ URLS[6]=new URL("Kaiser", "https://wa.kaiserpermanente.org");
+ URLS[7]=new URL("Google", "https://www.google.com");
+ URLS[8]=new URL("Google Maps", "https://maps.google.com");
+ URLS[9]=new URL("Reddit", "https://www.reddit.com");
+ URLS[10]=new URL("Patreon", "https://www.patreon.com");
+ URLS[11]=new URL("Duolingo", "https://www.duolingo.com");
+ URLS[12]=new URL("Amazon", "https://www.amazon.com");
+ URLS[13]=new URL("EBay", "https://www.ebay.com");
+ URLS[14]=new URL("Peacock", "https://www.peacocktv.com");
+ URLS[15]=new URL("Weather", "https://aviationweather.gov/satellite/plot?region=us");
+}
+
+function ShowURL(strName, strURL)
+{
+ var s;
+  
+ s="";
+ s+="<td class='linkTD' onclick='LinkClick(\"" + strURL +"\")'>";
+ s+="<span class='linkSpan'>";
+ s+="<img src='http://www.google.com/s2/favicons?sz=24&domain="+ strURL + "' width='24' height='24'><br>";
+ s+=strName;
+ s+="</span>";
+ s+="</td>";
+
+ return s;
+}
+
+function LinkClick(strURL)
+{
+ window.open(strURL, "_self");
+}
+
+function ShowURLs()
+{
+ var s;
+ var i;
+ var k;
+
+ s="<table class='linkTable'><tr>";
+ k=0;
+ i=0;
+
+ while(i<URLS.length)
+  {
+   if (k>5)
+    {
+     k=0;
+     s+="</tr><tr>";
+    }
+   s+=ShowURL(URLS[i].Text, URLS[i].Link);
+   k++;
+   i++;
+  }
+
+ s+="</tr></table>";
+ document.getElementById("dynLinks").innerHTML=s;
+}
+
+function ShowToday()
+{
+ var t=new Date();
+ var s;
+
+ switch(t.getDay())
+  {
+   case 0: s="Sunday "; break;
+   case 1: s="Monday "; break;
+   case 2: s="Tuesday "; break;
+   case 3: s="Wednesday "; break;
+   case 4: s="Thursday "; break;
+   case 5: s="Friday "; break;
+   case 6: s="Saturday "; break;  
+  }
+ if (t.getHours()>12)
+   s+=(t.getHours()-12).toString() + ":" + ("0" + t.getMinutes()).substr(-2,2) + "PM";
+ else
+   s+=t.getHours() + ":" + ("0" + t.getMinutes()).substr(-2,2) + "PM";
+ s+="<BR>";
+ s+=t.getDate()+" ";
+ switch(t.getMonth())
+  {
+   case 0: s+="Jan "; break;
+   case 1: s+="Feb "; break;
+   case 2: s+="Mar "; break;
+   case 3: s+="Apr "; break;
+   case 4: s+="May "; break;
+   case 5: s+="Jun "; break;
+   case 6: s+="Jul "; break;
+   case 7: s+="Aug "; break;
+   case 8: s+="Sep "; break;
+   case 9: s+="Oct "; break;
+   case 10: s+="Nov "; break;
+   case 11: s+="Dec "; break;
+  }
+ s+=t.getFullYear();
+ document.getElementById("dynToday").innerHTML=s;
+}
+
+AddURLs();
+ShowURLs();
+
+ShowToday();
+timer=setInterval(ShowToday, 1000*60);
+
+</script>
+</body></html>
