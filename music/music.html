@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<TITLE>bhughes Music</TITLE>
+</HEAD>
+<script>
+
+class Music
+{
+ constructor(title, path)
+  {
+   this.Title = title;
+   this.Url = path;
+  }
+}
+
+const m_Music = [];
+
+m_Music.push(new Music("ABCs of Laughter", "ABCsOfLaughter.mp3");
+m_Music.push(new Music("Broken Out of Shell", "BrokenOutOfShell.mp3");
+m_Music.push(new Music("Dig These Fossil Feelings", "DigTheseFossilFeelings.mp3");
+m_Music.push(new Music("Fluff the Afternoon", "FluffTheAfternoon.mp3");
+m_Music.push(new Music("I Can Only Carry So Many Things Before They Fall to the Floor", "ICanOnlyCarrySoManyThingsBeforeTheyFallToTheFloor.mp3");
+m_Music.push(new Music("Little Braids", "LittleBraids.mp3");
+m_Music.push(new Music("Maudlin Heights", "MaudlinHeights.mp3");
+m_Music.push(new Music("Nine Geese Flying", "NineGeeseFlying.mp3");
+m_Music.push(new Music("Pretty Gears", "PrettyGears.mp3");
+m_Music.push(new Music("Pulled Like Weeds", "PulledLikeWeeds.mp3");
+m_Music.push(new Music("Sensible Senses", "SensibleSenses.mp3");
+m_Music.push(new Music("Fluff the Afternoon", "FluffTheAfternoon.mp3");
+m_Music.push(new Music("Times of Quiet", "TimesOfQuiet.mp3");
+m_Music.push(new Music("Wobbly Willows", "WobblyWillows.mp3");
+
+function showEm()
+{
+ const div = document.getElementById("divMusic");
+ var s = "";
+
+ for(const val of m_Music)
+  {
+   s += "<br>";
+   s += val.Title;
+   s += "<audio controls src='/" + val.Url + "'>";
+   s += val.url; // in case no mp3 support
+   s += "</audio>";
+   s += "<br>";
+  }
+ div.innerHTML = s;
+}
+</script>
+<BODY>
+<div>bhughes Music</div>
+<br>
+<div id="divMusic">
+</div>
+</BODY>
+<script>
+showEm();
+</script>
+</HTML>
