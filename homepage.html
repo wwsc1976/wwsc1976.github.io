@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>Home Page</title>
+<style>
+
+body { height:90vh; min-height:90vh; }
+
+.linkTable { border-spacing:8px; }
+.linkSpan { font-size:14px; }
+.linkTD   { width:95px; height:75px; border:1px solid lightgray; border-radius:7px; background-color:#FAF9F6; box-shadow:2px 2px gray; text-align:center; font-family:sans-serif; cursor:pointer; }
+.containerDV { height:100%; display:flex; justify-content:center; align-items:center; }
+.linksTD { padding:12px; } 
+.todayTD { font-size:40pt; color:blue; text-shadow: 3px 3px 4px black; font-family:sans-serif; padding-left:40px; } 
+.searchTX { font-size:20px; font-weight:90; font-family:sans-serif; }
+
+.modal-button 
+{
+ margin:2px 2px 2px 2px;
+ background-color: #0a262f;
+ border:1px solid #2d5556;
+ border-radius:9px;
+ color:lightcyan;
+ background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#264d5c), to(#030705)); 
+ width: 110px;
+ height: 24px;
+}
+
+.modal-title 
+{
+ /* margin:1px 1px 1px 1px; */
+ background-color: #0a262f;
+ border:1px solid #2d5556;
+ border-radius:1px;
+ color:lightcyan;
+ width: 100%;
+ vertical-align: center;
+ padding-top: 4px;
+ padding-bottom: 4px;
+}
+
+.modal-list 
+{
+ width: 150px;
+ background-color: white;
+ color: black;
+}
+
+
+
+.modal /* background */ 
+{
+ display: none;
+ position: fixed;
+ z-index: 1; /* top */
+ padding-top:100px;
+ left:0;
+ top:0;
+ width:100%;
+ height:100%;
+ overflow:auto;
+ background-color: rgb(0,0,0);
+ background-color: rgba(0,0,0,0.5);
+}
+.modal-content
+{
+ position:relative;
+ left:-300px;
+ background-color: skyblue;
+ margin:auto;
+ padding:0;
+ border: 1px solid royalblue;
+ width:280px;
+ box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+ -webkit-animation-name: animatetop;
+ -webkit-animation-duration: 0.4s;
+ animation-name:animatetop;
+ animation-duration:0.4s;
+}
+
+@-webkit-keyframes animatetop 
+{
+ from { top: -300px; opacity: 0; }
+ to { top: 0; opacity: 1; }
+}
+
+@keyframes animatetop 
+{
+ from { top: -300px; opacity: 0; }
+ to { top: 0; opacity: 1; }
+}
+
+
+@media (prefers-color-scheme: dark) 
+ {
+  .linkTD   { background-color:charcoal; box-shadow:2px 2px gray; text-align:center; font-family:sans-serif; cursor:pointer; }
+  body { background-color: black; }
+ }
+
+</style>
+</head>
+<body>
+<div class="containerDV">
+<table>
+ <tbody><tr>
+  <td id="dynLinks" class="linksTD"></td>
+  <td id="dynToday" class="todayTD">Thursday 3:02PM<br>6 Jul 2023</td>
+ </tr>
+ <tr>
+  <td align="center" style="whitespace:nowrap;">
+    <br>
+    <form action="https://www.google.com/search" method="get" target="_self">
+    <input class="searchTX" type="text" name="q" size="60" placeholder="Google Search" autofocus="">
+    <input class="searchTX" type="submit" value="Search" style="margin-left:5px;">
+    <input class="searchTX" type="button" value="+" onclick="addLink();" style="margin-left:5px;">
+    <input class="searchTX" type="button" value="-" onclick="dropLink();" style="margin-left:5px;" id='btnDel'>
+    </form>
+  </td>
+ </tr>
+</tbody></table>
+</div>
+
+<div id="divAdd" class="modal">
+<div class="modal-content" style="padding:4px 6px 4px 2px; position:fixed; left:100px; width:332px;">
+<table>
+ <tr><td colspan="2" class="modal-title" style="vertical-align: top; text-align: center;">New Link</td></tr>
+ <tr><td>Name</td><td><input type='text' style="width:120px;" id="txtName"></td></tr>
+ <tr><td>URL</td><td><input type='text' style="width:280px;" id="txtURL"></td></tr>
+  <td colspan="2" style="text-align: right;">
+   <input type="button" class="modal-button" style="width:60px;" value="OK" onclick="btnOK_Click();"><br>
+  </td>
+ </tr>
+</table>
+</div>
+</div>
+
+</body>
+
+<script>
+var m_DeleteMode = false;
+var m_Timer;
+var m_URLS = [];
+
+function btnOK_Click()
+{
+ const name = document.getElementById("txtName").value.trim();
+ var url = document.getElementById("txtURL").value.trim();
+
+ if (name.length == 0 || url.length == 0)
+   return;
+
+ var haveIt = false;
+
+ if (url.substr(0, 7) == "http://") haveIt = true;
+ if (url.substr(0, 8) == "https://") haveIt = true;
+ 
+ if (haveIt == false)
+   url = "https://" + url;
+
+ document.getElementById("divAdd").style.display = "none";
+ m_URLS.push(new URL(name, url));
+ ShowURLs();
+ saveCookie();
+}
+
+function addLink()
+{
+ document.getElementById("divAdd").style.display = "block";
+}
+
+function dropLink()
+{
+ if (m_DeleteMode == true)
+  {
+   m_DeleteMode = false;
+   document.getElementById("btnDel").style.backgroundColor = "#FAF9F6";  
+  }
+ else
+  {
+   m_DeleteMode = true;
+   document.getElementById("btnDel").style.backgroundColor = "red";  
+  }
+}
+
+class URL
+{
+ constructor(strName, strURL)
+  {
+   this.Text=strName;
+   this.Link=strURL;
+  }
+}
+
+function ShowURL(strName, strURL)
+{
+ var s;
+  
+ s="";
+ s+="<td class='linkTD' onclick='LinkClick(\"" + strURL +"\")'>";
+ s+="<span class='linkSpan'>";
+ s+="<img src='http://www.google.com/s2/favicons?sz=24&domain="+ strURL + "' width='24' height='24'><br>";
+ s+=strName;
+ s+="</span>";
+ s+="</td>";
+
+ return s;
+}
+
+function LinkClick(strURL)
+{
+ if (m_DeleteMode == false)
+   window.open(strURL, "_self");
+ else
+   removeLink(strURL);
+}
+
+function removeLink(url)
+{
+ const items = [];
+
+ for(const item of m_URLS)
+  {
+   if (item.Link != url)
+     items.push(item);
+  }
+ 
+ m_URLS = [];
+ for(const item of items)
+   m_URLS.push(item);
+
+ ShowURLs();
+
+ m_DeleteMode = false;
+ document.getElementById("btnDel").style.backgroundColor = "#FAF9F6";   
+ saveCookie();
+}
+
+
+function ShowURLs()
+{
+ var s;
+ var k;
+
+ s="<table class='linkTable'><tr>";
+ k=0;
+
+ for (const item of m_URLS)
+  {
+   if (k>5)
+    {
+     k=0;
+     s+="</tr><tr>";
+    }
+   s+=ShowURL(item.Text, item.Link);
+   k++;
+  }
+
+ s+="</tr></table>";
+ document.getElementById("dynLinks").innerHTML=s;
+}
+
+function ShowToday()
+{
+ var t=new Date();
+ var s;
+
+ switch(t.getDay())
+  {
+   case 0: s="Sunday "; break;
+   case 1: s="Monday "; break;
+   case 2: s="Tuesday "; break;
+   case 3: s="Wednesday "; break;
+   case 4: s="Thursday "; break;
+   case 5: s="Friday "; break;
+   case 6: s="Saturday "; break;  
+  }
+ if (t.getHours()>12)
+   s+=(t.getHours()-12).toString() + ":" + ("0" + t.getMinutes()).substr(-2,2) + "PM";
+ else
+   s+=t.getHours() + ":" + ("0" + t.getMinutes()).substr(-2,2) + "PM";
+ s+="<BR>";
+ s+=t.getDate()+" ";
+ switch(t.getMonth())
+  {
+   case 0: s+="Jan "; break;
+   case 1: s+="Feb "; break;
+   case 2: s+="Mar "; break;
+   case 3: s+="Apr "; break;
+   case 4: s+="May "; break;
+   case 5: s+="Jun "; break;
+   case 6: s+="Jul "; break;
+   case 7: s+="Aug "; break;
+   case 8: s+="Sep "; break;
+   case 9: s+="Oct "; break;
+   case 10: s+="Nov "; break;
+   case 11: s+="Dec "; break;
+  }
+ s += t.getFullYear();
+ document.getElementById("dynToday").innerHTML=s;
+}
+
+
+function saveCookie() 
+{
+ var s = "";
+
+ for(const item of m_URLS)
+  {
+   if (s.length > 0)
+     s += "|";
+   s += item.Text + "," + item.Link;
+  }
+ document.cookie = "Lineage99HomePageLinks=" + s;
+}
+
+function loadCookie()
+{
+ m_URLS = [];
+ const s = document.cookie;
+ const parts = s.split(';');
+ for(const cook of parts)
+  {
+   const pairs = cook.split('=');
+   if (pairs[0] == "Lineage99HomePageLinks")
+    {
+     urls = pairs[1].split('|');
+     for(const link of urls)
+      {
+       const parts = link.split(',');
+       m_URLS.push(new URL(parts[0],parts[1]));
+      }
+    }
+  }
+}
+
+
+loadCookie();
+ShowURLs();
+
+ShowToday();
+m_Timer=setInterval(ShowToday, 1000*60);
+
+window.onclick = function(event)
+{
+ if (event.target == document.getElementById("divAdd"))
+   event.target.style.display = "none";
+}
+
+</script>
+</html>
