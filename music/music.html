@@ -39,9 +39,9 @@ function showEm()
  for(const val of m_Music)
   {
    s += "<br>";
-   s += val.Title;
-   s += "<audio controls src='/" + val.Url + "'>";
-   s += val.url; // in case no mp3 support
+   s += val.Title + "<br>";
+   s += "<audio controls src='/music/" + val.Url + "'>";
+   s += "/music/" + val.url; // in case no mp3 support
    s += "</audio>";
    s += "<br>";
   }
