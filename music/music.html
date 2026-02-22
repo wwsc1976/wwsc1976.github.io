@@ -29,6 +29,7 @@ m_Music.push(new Music("Sensible Senses", "SensibleSenses.mp3"));
 m_Music.push(new Music("Fluff the Afternoon", "FluffTheAfternoon.mp3"));
 m_Music.push(new Music("Times of Quiet", "TimesOfQuiet.mp3"));
 m_Music.push(new Music("Wobbly Willows", "WobblyWillows.mp3"));
+m_Music.push(new Music("A Hazy Motif", "AHazyMotif.mp3"));
 
 function showEm()
 {
@@ -39,7 +40,7 @@ function showEm()
   {
    s += "<br>";
    s += val.Title;
-   s += "<br><audio controls src='/music/" + val.Url + "'  type='audio/mpeg'>";
+   s += "<audio controls src='/" + val.Url + "'>";
    s += val.url; // in case no mp3 support
    s += "</audio>";
    s += "<br>";
@@ -56,6 +57,4 @@ function showEm()
 <script>
 showEm();
 </script>
-
 </HTML>
-
